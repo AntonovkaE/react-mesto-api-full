@@ -1,6 +1,4 @@
-# Logs
-
-/frontend
+# Logsgi
 logs
 *.log
 npm-debug.log*
