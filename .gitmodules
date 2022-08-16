@@ -1,0 +1,3 @@
+[submodule "express-mesto-gha"]
+	path = express-mesto-gha
+	url = git@github.com:AntonovkaE/express-mesto-gha.git
