@@ -1,0 +1,19 @@
+.profile__name-block {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: flex-start;
+  margin: 0 auto 14px;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  white-space: break-spaces;
+  width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+  .profile__name-block {
+    margin: 0 30px 16px 0;
+  }
+  
+}

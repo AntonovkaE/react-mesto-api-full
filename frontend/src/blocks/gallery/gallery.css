@@ -1,0 +1,10 @@
+.gallery {
+  margin: 0 auto 48px;
+}
+
+@media screen and (min-width: 1280px) {
+  .gallery {
+    width: 100%;
+    margin: 0 auto 66px;
+  }
+}
