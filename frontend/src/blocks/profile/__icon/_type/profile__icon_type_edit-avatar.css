@@ -1,0 +1,9 @@
+.profile__icon_type_edit-avatar {
+    display: none;
+    position: absolute;
+}
+
+.profile__button_type_change-avatar:hover .profile__icon_type_edit-avatar {
+    display: block;
+    opacity: 1;
+}

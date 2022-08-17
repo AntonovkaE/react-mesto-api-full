@@ -1,0 +1,11 @@
+.popup__heading_infoTooltip {
+  font-size: 20px;
+  line-height: 24px;
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+  .popup__heading_infoTooltip {
+    font-size: 24px;
+    line-height: 29px;}
+}
