@@ -13,7 +13,7 @@ const {
   login,
   createUser,
 } = require('./controllers/user');
-const auth = require('../front/middlewares/auth');
+const auth = require('../frontend/middlewares/auth');
 const { validateSignUp, validateSignIn } = require('./utils/validation');
 
 const { PORT = 3000 } = process.env;
