@@ -1,0 +1,18 @@
+.profile__button_type_edit {
+  width: 18px;
+  height: 18px;
+  border: 1px solid #FFFFFF;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+}
+
+@media screen and (min-width: 768px) {
+  .profile__button_type_edit {
+    width: 24px;
+    height: 24px;
+    -ms-flex-item-align: center;
+        align-self: center;
+    margin-top: 7px;
+  }
+}

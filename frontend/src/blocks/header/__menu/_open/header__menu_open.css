@@ -1,0 +1,5 @@
+.header__menu_open {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
