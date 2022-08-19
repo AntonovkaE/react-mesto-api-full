@@ -1,3 +1,5 @@
+const UNAUTHORIZED_CODE = 401;
+
 class Unauthorized extends Error {
   constructor(message) {
     super(message);
