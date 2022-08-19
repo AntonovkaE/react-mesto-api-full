@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
+const cors = require('cors')
 const {
   errors,
 } = require('celebrate');
@@ -15,6 +16,7 @@ const {
 } = require('./controllers/user');
 const auth = require('./middlewares/auth');
 const { validateSignUp, validateSignIn } = require('./utils/validation');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -25,9 +27,10 @@ const limiter = rateLimit({
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
-
+app.use(cors())
 app.use(limiter);
 app.use(helmet());
+app.use(requestLogger);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -46,6 +49,8 @@ app.use('/cards', require('./routes/cards'));
 app.use('/', () => {
   throw new NotFoundError('Страница не найдена');
 });
+
+app.use(errorLogger);
 app.use(errors());
 
 app.use((err, req, res, next) => {
