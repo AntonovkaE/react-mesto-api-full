@@ -3,6 +3,7 @@ const {
   NotFoundError,
 } = require('../utils/errors/NotFoundError');
 const { ForbiddenError } = require('../utils/errors/ForbiddenError');
+const { BadRequestError } = require("../utils/errors/BadRequestError");
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
@@ -36,7 +37,17 @@ module.exports.createCard = (req, res, next) => {
     owner,
   })
     .then((card) => res.send({ card }))
-    .catch(next);
+    .catch((err) => {
+      if (err.code === 11000) {
+        'Пользователь с таким email существует';
+      }
+      if (err.name === 'CastError' || err.name === 'ValidationError') {
+        next(new BadRequestError('Переданы некорректные данные' ))
+      }
+      else {
+        next(err)
+      }
+    });
 };
 
 module.exports.likeCard = (req, res, next) => {
