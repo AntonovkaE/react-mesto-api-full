@@ -18,6 +18,7 @@ const {
 const auth = require('./middlewares/auth');
 const { validateSignUp, validateSignIn } = require('./utils/validation');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const errorHandler = require("./utils/errors/errorHandler");
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -60,16 +61,6 @@ app.use('/', () => {
 app.use(errorLogger);
 app.use(errors());
 
-app.use((err, req, res, next) => {
-  const { statusCode = 500, message } = err;
-  if (err.name === 'CastError' || err.name === 'ValidationError') {
-    return res.status(400).send({ message: 'Переданы некорректные данные' });
-  }
-  if (err.code === 11000) {
-    return res.status(409).send({ message: 'Пользователь с таким email существует' });
-  }
-  res.status(statusCode).send({ message: statusCode === 500 ? 'ошибка на сервере' : message });
-  return next();
-});
+app.use(errorHandler);
 
 app.listen(PORT);
