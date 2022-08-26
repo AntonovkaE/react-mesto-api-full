@@ -5,6 +5,13 @@ const bodyParser = require('body-parser');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const cors = require('cors')
+const corsOrigins = {
+  origin: [
+    'https://mesto.antonovskaya.nomoredomains.sbs/',
+    'https://api.mesto.antonovskaya.nomoredomains.sbs/'],
+    credentials: true,
+}
+
 const {
   errors,
 } = require('celebrate');
@@ -29,7 +36,7 @@ const limiter = rateLimit({
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
-app.use(cors())
+app.use(cors());
 app.use(helmet());
 app.use(requestLogger);
 app.use(limiter);
