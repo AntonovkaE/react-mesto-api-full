@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const {
   errors,
 } = require('celebrate');
@@ -34,6 +35,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 mongoose.connect('mongodb://localhost:27017/mestodb');
 
+app.use(requestLogger);
 app.post('/signin', validateSignIn, login);
 app.post('/signup', validateSignUp, createUser);
 
@@ -46,6 +48,8 @@ app.use('/cards', require('./routes/cards'));
 app.use('/', () => {
   throw new NotFoundError('Страница не найдена');
 });
+
+app.use(errorLogger);
 app.use(errors());
 
 app.use((err, req, res, next) => {
