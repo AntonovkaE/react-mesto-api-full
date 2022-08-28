@@ -20,7 +20,7 @@ module.exports = (req, res, next) => {
   let payload;
 
   try {
-    payload = jwt.verify(token, NODE_ENV !== 'production' ? 'test-secret-word' : JWT_SECRET : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzBhMDM3ZDhlMjUzMjQ3MTViY2U1ZDAiLCJpYXQiOjE2NjE2MDA2NzcsImV4cCI6MTY2MjIwNTQ3N30.tEUYfhAT0z0fKn9FMQaa1nd4RmQJDUoHNU91qM4H04w');
+    payload = jwt.verify(token, NODE_ENV !== 'production' ? 'test-secret-word' : JWT_SECRET );
   } catch (err) {
     return handleAuthError(res);
   }
