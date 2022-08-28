@@ -28,15 +28,17 @@ const limiter = rateLimit({
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
-app.use(cors({
+const corsOptions = {
   origin: [
     'https://mesto.praktikum.nomoredomains.sbs',
     'http://mesto.praktikum.nomoredomains.sbs',
     'http://localhost:3000',
     'https://locahost:3000',
-  ],
-  credentials: true,
-}))
+  ]
+}
+
+
+app.use(cors())
 app.use(helmet());
 app.use(limiter);
 
