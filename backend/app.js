@@ -1,6 +1,6 @@
-require('dotenv').config()
+// require('dotenv').config()
 const express = require('express');
-const cors = require('cors')
+const cors = require('./middlewares/cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const rateLimit = require('express-rate-limit');
@@ -19,7 +19,7 @@ const {
 const auth = require('./middlewares/auth');
 const { validateSignUp, validateSignIn } = require('./utils/validation');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
 const app = express();
 
 const limiter = rateLimit({
@@ -28,20 +28,18 @@ const limiter = rateLimit({
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
-const corsOptions = {
-  origin: [
-    'https://mesto.praktikum.nomoredomains.sbs',
-    'http://mesto.praktikum.nomoredomains.sbs',
-    'http://localhost:3000',
-    'https://locahost:3000',
-  ]
-}
+// const corsOptions = {
+//   origin: [
+//     'https://mesto.praktikum.nomoredomains.sbs',
+//     'http://mesto.praktikum.nomoredomains.sbs',
+//     'http://localhost:3000',
+//     'https://locahost:3000',
+//   ]
+// }
 
-
-app.use(cors())
+app.use(cors)
 app.use(helmet());
 app.use(limiter);
-
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
