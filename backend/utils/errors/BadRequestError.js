@@ -7,4 +7,4 @@ class BadRequest extends Error {
   }
 }
 
-module.exports = { BAD_REQUEST_ERROR_CODE };
+module.exports = { BadRequest };

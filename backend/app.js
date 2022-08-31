@@ -18,8 +18,9 @@ const {
 } = require('./controllers/user');
 const auth = require('./middlewares/auth');
 const { validateSignUp, validateSignIn } = require('./utils/validation');
+const { errorHandler } = require("./utils/errors/errorHandler");
 
-const { PORT = 3003 } = process.env;
+const { PORT = 3000 } = process.env;
 const app = express();
 
 const limiter = rateLimit({
@@ -28,22 +29,22 @@ const limiter = rateLimit({
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
-const corsOptions = {
-  origin: [
-    'https://mesto.praktikum.nomoredomains.sbs',
-    'http://mesto.praktikum.nomoredomains.sbs',
-    'https://api.mesto.praktikum.nomoredomains.sbs',
-    'http://api.mesto.praktikum.nomoredomains.sbs',
-    'http://localhost:3000',
-    'https://locahost:3000',
-    'http://localhost:3001',
-    'https://locahost:3001',
-  ],
-}
+// const corsOptions = {
+//   origin: [
+//     'https://mesto.praktikum.nomoredomains.sbs',
+//     'http://mesto.praktikum.nomoredomains.sbs',
+//     'https://api.mesto.praktikum.nomoredomains.sbs',
+//     'http://api.mesto.praktikum.nomoredomains.sbs',
+//     'http://localhost:3000',
+//     'https://locahost:3000',
+//     'http://localhost:3001',
+//     'https://locahost:3001',
+//   ],
+// }
 
 app.use(cors())
 app.use(helmet());
-app.use(limiter);
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -51,6 +52,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 mongoose.connect('mongodb://localhost:27017/mestodb');
 
 app.use(requestLogger);
+app.use(limiter);
 app.post('/signin', validateSignIn, login);
 app.post('/signup', validateSignUp, createUser);
 
@@ -67,6 +69,6 @@ app.use('/', () => {
 app.use(errorLogger);
 app.use(errors());
 
-app.use(errorHandler);
+app.use(errorHandler)
 
 app.listen(PORT);
