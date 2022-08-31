@@ -1,5 +1,9 @@
 const { celebrate, Joi } = require('celebrate');
 
+const imgUrlRegExp = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)/;
+
+
+
 module.exports.validateSignIn = celebrate({
   body: Joi.object()
     .keys({
@@ -51,7 +55,7 @@ module.exports.validateCreateCard = celebrate({
         .max(30),
       link: Joi.string()
         .required()
-        .pattern(/^(ftp|http|https):\/\/[^ "]+$/),
+        .pattern(imgUrlRegExp),
     }),
 });
 

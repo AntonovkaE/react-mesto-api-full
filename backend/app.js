@@ -1,6 +1,6 @@
-// require('dotenv').config()
+require('dotenv').config()
 const express = require('express');
-const cors = require('./middlewares/cors');
+const cors = require('cors')
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const rateLimit = require('express-rate-limit');
@@ -19,7 +19,7 @@ const {
 const auth = require('./middlewares/auth');
 const { validateSignUp, validateSignIn } = require('./utils/validation');
 
-const { PORT = 3001 } = process.env;
+const { PORT = 3003 } = process.env;
 const app = express();
 
 const limiter = rateLimit({
@@ -28,16 +28,20 @@ const limiter = rateLimit({
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
-// const corsOptions = {
-//   origin: [
-//     'https://mesto.praktikum.nomoredomains.sbs',
-//     'http://mesto.praktikum.nomoredomains.sbs',
-//     'http://localhost:3000',
-//     'https://locahost:3000',
-//   ]
-// }
+const corsOptions = {
+  origin: [
+    'https://mesto.praktikum.nomoredomains.sbs',
+    'http://mesto.praktikum.nomoredomains.sbs',
+    'https://api.mesto.praktikum.nomoredomains.sbs',
+    'http://api.mesto.praktikum.nomoredomains.sbs',
+    'http://localhost:3000',
+    'https://locahost:3000',
+    'http://localhost:3001',
+    'https://locahost:3001',
+  ],
+}
 
-app.use(cors)
+app.use(cors())
 app.use(helmet());
 app.use(limiter);
 
@@ -63,16 +67,6 @@ app.use('/', () => {
 app.use(errorLogger);
 app.use(errors());
 
-app.use((err, req, res, next) => {
-  const { statusCode = 500, message } = err;
-  if (err.name === 'CastError' || err.name === 'ValidationError') {
-    return res.status(400).send({ message: 'Переданы некорректные данные' });
-  }
-  if (err.code === 11000) {
-    return res.status(409).send({ message: 'Пользователь с таким email существует' });
-  }
-  res.status(statusCode).send({ message: statusCode === 500 ? 'ошибка на сервере' : message });
-  return next();
-});
+app.use(errorHandler);
 
 app.listen(PORT);

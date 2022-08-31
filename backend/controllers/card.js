@@ -3,6 +3,7 @@ const {
   NotFoundError,
 } = require('../utils/errors/NotFoundError');
 const { ForbiddenError } = require('../utils/errors/ForbiddenError');
+const Console = require("console");
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
@@ -30,13 +31,17 @@ module.exports.createCard = (req, res, next) => {
     link,
   } = req.body;
   const owner = req.user._id;
+  console.log(name, link, owner)
   Card.create({
     name,
     link,
     owner,
   })
-    .then((card) => res.send({ card }))
-    .catch(next);
+    .then((card) => {
+      console.log(card)
+      res.send(card)
+    })
+    .catch(error => console.log(error));
 };
 
 module.exports.likeCard = (req, res, next) => {

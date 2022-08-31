@@ -19,7 +19,10 @@ module.exports.getUsers = (req, res, next) => {
 module.exports.getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .orFail(new NotFoundError('Нет пользователя с таким id'))
-    .then((user) => res.status(200).send({ user }))
+    .then((user) => {
+
+      res.status(200).send({ user })
+    })
     .catch(next);
 };
 
@@ -68,6 +71,7 @@ module.exports.updateUser = (req, res, next) => {
     name,
     about,
   } = req.body;
+  console.log(name, about)
   User.findByIdAndUpdate(req.user._id, {
     name,
     about,
@@ -99,7 +103,9 @@ module.exports.login = (req, res) => {
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      res.send({ token: jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' }) });
+      const token = jwt.sign({ _id: user._id }, NODE_ENV !== 'production' ? 'super-strong-secret' : JWT_SECRET, { expiresIn: '7d' });
+      res.send({token})
+      ;
     })
     .catch((err) => {
       res.status(401)
