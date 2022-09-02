@@ -9,9 +9,6 @@ module.exports.getCards = (req, res, next) => {
   Card.find({})
     .then((cards) => res.send(cards))
     .catch((err) => {
-    if (err.code === 11000) {
-      'Пользователь с таким email существует';
-    }
     if (err.name === 'CastError' || err.name === 'ValidationError') {
       next(new BadRequest('Переданы некорректные данные' ))
     }
@@ -49,7 +46,13 @@ module.exports.createCard = (req, res, next) => {
     .then((card) => {
       res.send(card)
     })
-    .catch(error => console.log(error));
+    .catch(err => {
+      if (err.name === 'ValidationError') {
+        next(new BadRequest('Некорректные данные при создании карточки'))
+      } else {
+        next(err)
+      }
+    });
 };
 
 module.exports.likeCard = (req, res, next) => {
