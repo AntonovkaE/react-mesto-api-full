@@ -8,6 +8,7 @@ const {
     NotFoundError,
 } = require('../utils/errors/NotFoundError');
 const { BadRequest } = require("../utils/errors/BadRequestError");
+const { Unauthorized } = require("../utils/errors/UnauthorizedError");
 
 module.exports.getUsers = (req, res, next) => {
     User.find({})
@@ -103,7 +104,6 @@ module.exports.login = (req, res, next) => {
         email,
         password,
     } = req.body;
-    console.log(email, password)
 
     return User.findUserByCredentials(email, password)
         .then((user) => {
@@ -111,5 +111,7 @@ module.exports.login = (req, res, next) => {
             res.send({ token })
             ;
         })
-        .catch(next);
+        .catch(() => {
+            next(new Unauthorized("Неправильные почта или пароль"))
+        });
 };
