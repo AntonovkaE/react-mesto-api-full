@@ -63,7 +63,16 @@ module.exports.createUser = (req, res, next) => {
                 name, email, avatar, about, id: user._id,
             },
         ))
-        .catch(next);
+        .catch((err) => {
+            if (err.code === 11000) {
+                next(new BadRequest('Пользователь с таким email существует'));
+            }
+            if (err.name === 'ValidationError') {
+                next(new BadRequest('Некорректные данные при создании карточки'))
+            } else {
+                next(err);
+            }
+        });
 };
 module.exports.updateUser = (req, res, next) => {
     const {
@@ -79,7 +88,13 @@ module.exports.updateUser = (req, res, next) => {
     })
         .orFail(new NotFoundError('Нет пользователя с таким id'))
         .then((user) => res.status(200).send({ user }))
-        .catch(next);
+        .catch(err => {
+            if (err.name === 'ValidationError') {
+                next(new BadRequest('Некорректные данные при обновлении пользователя'))
+            } else {
+                next(err);
+            }
+    });
 };
 
 module.exports.updateAvatar = (req, res, next) => {

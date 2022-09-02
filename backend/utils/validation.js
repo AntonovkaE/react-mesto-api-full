@@ -11,8 +11,7 @@ module.exports.validateSignIn = celebrate({
         .required()
         .email(),
       password: Joi.string()
-        .required()
-        .min(8),
+        .required(),
     }),
 });
 
@@ -23,8 +22,7 @@ module.exports.validateSignUp = celebrate({
         .required()
         .email(),
       password: Joi.string()
-        .required()
-        .min(8),
+        .required(),
       name: Joi.string()
         .min(2)
         .max(30)
@@ -36,8 +34,7 @@ module.exports.validateSignUp = celebrate({
         .min(2)
         .max(30)
         .default('Исследователь'),
-    })
-    .unknown(true),
+    }),
 });
 
 module.exports.validateId = celebrate({
