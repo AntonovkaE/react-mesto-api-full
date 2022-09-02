@@ -15,7 +15,7 @@ const {
 const {
   login,
   createUser,
-} = require('./controllers/user');
+} = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const { validateSignUp, validateSignIn } = require('./utils/validation');
 const { errorHandler } = require("./utils/errors/errorHandler");
@@ -29,18 +29,6 @@ const limiter = rateLimit({
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
-// const corsOptions = {
-//   origin: [
-//     'https://mesto.praktikum.nomoredomains.sbs',
-//     'http://mesto.praktikum.nomoredomains.sbs',
-//     'https://api.mesto.praktikum.nomoredomains.sbs',
-//     'http://api.mesto.praktikum.nomoredomains.sbs',
-//     'http://localhost:3000',
-//     'https://locahost:3000',
-//     'http://localhost:3001',
-//     'https://locahost:3001',
-//   ],
-// }
 
 app.use(cors())
 app.use(helmet());

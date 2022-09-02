@@ -6,7 +6,7 @@ const {
   createCard,
   likeCard,
   dislikeCard,
-} = require('../controllers/card');
+} = require('../controllers/cards');
 
 const { validateId, validateCreateCard } = require('../utils/validation');
 

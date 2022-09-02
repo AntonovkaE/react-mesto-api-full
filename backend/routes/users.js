@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 const {
   getUsers, getUser, updateUser, getCurrentUser, updateAvatar,
-} = require('../controllers/user');
+} = require('../controllers/users');
 const { validateId, validateUpdateUser, validateUpdateAvatar } = require('../utils/validation');
 
 router.get('/me', getCurrentUser);
