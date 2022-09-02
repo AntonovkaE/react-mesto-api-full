@@ -3,19 +3,18 @@ const {
   NotFoundError,
 } = require('../utils/errors/NotFoundError');
 const { ForbiddenError } = require('../utils/errors/ForbiddenError');
-const { BadRequest } = require("../utils/errors/BadRequestError");
+const { BadRequest } = require('../utils/errors/BadRequestError');
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
     .then((cards) => res.send(cards))
     .catch((err) => {
-    if (err.name === 'CastError' || err.name === 'ValidationError') {
-      next(new BadRequest('Переданы некорректные данные' ))
-    }
-    else {
-      next(err)
-    }
-  });
+      if (err.name === 'CastError' || err.name === 'ValidationError') {
+        next(new BadRequest('Переданы некорректные данные'));
+      } else {
+        next(err);
+      }
+    });
 };
 
 module.exports.deleteCard = (req, res, next) => {
@@ -44,13 +43,13 @@ module.exports.createCard = (req, res, next) => {
     owner,
   })
     .then((card) => {
-      res.send(card)
+      res.send(card);
     })
-    .catch(err => {
+    .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequest('Некорректные данные при создании карточки'))
+        next(new BadRequest('Некорректные данные при создании карточки'));
       } else {
-        next(err)
+        next(err);
       }
     });
 };

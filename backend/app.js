@@ -1,14 +1,14 @@
-require('dotenv').config()
+require('dotenv').config();
 const express = require('express');
-const cors = require('cors')
+const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
-const { requestLogger, errorLogger } = require('./middlewares/logger');
 const {
   errors,
 } = require('celebrate');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const {
   NotFoundError,
 } = require('./utils/errors/NotFoundError');
@@ -18,7 +18,7 @@ const {
 } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const { validateSignUp, validateSignIn } = require('./utils/validation');
-const { errorHandler } = require("./utils/errors/errorHandler");
+const { errorHandler } = require('./utils/errors/errorHandler');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -30,7 +30,7 @@ const limiter = rateLimit({
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
 
-app.use(cors())
+app.use(cors());
 app.use(helmet());
 
 app.use(bodyParser.json());
@@ -56,6 +56,6 @@ app.use('/', () => {
 app.use(errorLogger);
 app.use(errors());
 
-app.use(errorHandler)
+app.use(errorHandler);
 
 app.listen(PORT);
