@@ -68,6 +68,7 @@ module.exports.createUser = (req, res, next) => {
       if (err.code === 11000) {
         next(new ConflictError('Пользователь с таким email существует'));
       }
+      // Прошу прощения, у меня переодически ВМ прерывается и слетает публичный ip, поэтому на прошлой проверке сайт не работал
       if (err.name === 'ValidationError') {
         next(new BadRequest('Некорректные данные при создании карточки'));
       } else {
