@@ -106,7 +106,7 @@ module.exports.updateAvatar = (req, res, next) => {
     new: true,
   })
     .orFail(new NotFoundError('Нет пользователя с таким id'))
-    .then((user) => res.send(user))
+    .then((user) => res.send({ user }))
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
         next(new BadRequest('Переданы некорректные данные'));

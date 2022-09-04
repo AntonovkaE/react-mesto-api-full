@@ -20,7 +20,7 @@ const auth = require('./middlewares/auth');
 const { validateSignUp, validateSignIn } = require('./utils/validation');
 const { errorHandler } = require('./utils/errors/errorHandler');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
 const app = express();
 
 const limiter = rateLimit({
@@ -31,6 +31,10 @@ const limiter = rateLimit({
 });
 
 app.use(cors());
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*")
+  next();
+})
 app.use(helmet());
 
 app.use(bodyParser.json());
