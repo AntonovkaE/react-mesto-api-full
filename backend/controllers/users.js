@@ -10,6 +10,7 @@ const {
 } = require('../utils/errors/NotFoundError');
 const { BadRequest } = require('../utils/errors/BadRequestError');
 const { Unauthorized } = require('../utils/errors/UnauthorizedError');
+const { ConflictError } = require("../utils/errors/ConflictError");
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
@@ -65,7 +66,7 @@ module.exports.createUser = (req, res, next) => {
     ))
     .catch((err) => {
       if (err.code === 11000) {
-        next(new BadRequest('Пользователь с таким email существует'));
+        next(new ConflictError('Пользователь с таким email существует'));
       }
       if (err.name === 'ValidationError') {
         next(new BadRequest('Некорректные данные при создании карточки'));
