@@ -100,13 +100,17 @@ module.exports.updateUser = (req, res, next) => {
 };
 
 module.exports.updateAvatar = (req, res, next) => {
+
   const { avatar } = req.body;
+
   User.findByIdAndUpdate(req.user._id, { avatar }, {
     runValidators: true,
     new: true,
   })
     .orFail(new NotFoundError('Нет пользователя с таким id'))
-    .then((user) => res.send({ user }))
+    .then((user) => {
+      res.send(user )
+    })
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
         next(new BadRequest('Переданы некорректные данные'));
